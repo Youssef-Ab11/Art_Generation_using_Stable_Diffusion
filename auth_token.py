@@ -1,1 +1,1 @@
-auth_token = "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"
+auth_token = '''the token identifier you get from huggingface plateform'''
