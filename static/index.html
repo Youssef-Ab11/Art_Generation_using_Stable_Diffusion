@@ -1,0 +1,58 @@
+<html>
+
+<head>
+   <meta charset="UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="stylesheet" type="text/css" href="/static/this.css" />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+      integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<title>Fun page!</title>
+
+<body>
+   <div class="resultbox" id="resultbox"> 
+      <!-- You can style this box for a cleaner look -->
+   </div>
+   <form method="get" action="/generate" id="myform">
+      <div class="container">
+         <!-- this button does nothing yknow -->
+         <div class="container-close"></div> 
+         <img
+            src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/moroccan-fountain-tom-gowanlock.jpg"
+            alt="image"
+            id="resultimage">
+         <div class="container-text" id="mycontainer">
+            <h2>Generate unique and detailed Moroccan <br> interiors!</h2>
+            <p>This model is designed to generate fun and various outputs of Moroccan interiors inspired by the
+               fascinating Moroccan architecture!</p>
+            <input type="text" name="prompt" id="prompt" placeholder="Photo of Moroccan interior with flowers...">
+            <button type="submit" value="Generate">Generate</button>
+         </div>
+      </div>
+   </form>
+
+   <script>
+      $("#myform").submit(async function (e) {
+         e.preventDefault();
+         var prompt = document.getElementById('prompt').value;
+         // var result = fetch()
+         var form = document.getElementById('mycontainer')
+         var formContent = form.innerHTML
+         var resultbox = document.getElementById('resultbox')
+
+         form.innerHTML = '<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
+         var result = await fetch(`/generate?prompt=${prompt}`).then((response) => response.json()).then((data) => {
+            resultimage = data.result
+             //resultbox.innerHTML = `<img src="data:image/png;base64,${resultimage}">`
+            document.getElementById('resultimage').src = `data:image/png;base64,${resultimage}`
+         })
+
+         form.innerHTML = formContent
+      })
+   </script>
+
+</body>
+
+</html>
